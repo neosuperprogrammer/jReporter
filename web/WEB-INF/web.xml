@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>jReporter</display-name>
+	<welcome-file-list>
+		<welcome-file>main.html</welcome-file>
+	</welcome-file-list>
+	
+	<context-param>
+		<description>Location to store uploaded file</description>
+		<param-name>file-upload-test</param-name>
+		<param-value>/jReporterUpload/</param-value>
+	</context-param>
+	<context-param>
+		<description>Location to store uploaded file</description>
+		<param-name>file-upload</param-name>
+		<param-value>/srv/www/flowgrammer.com/public_html/jReporterUpload/</param-value>
+	</context-param>	
+	<context-param>
+		<description>Location to store uploaded temp file</description>
+		<param-name>file-upload-temp</param-name>
+		<param-value>/temp/</param-value>
+	</context-param>
+	
+ 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/jReporter-servlet.xml</param-value>
+	</context-param>
+
+	<listener>
+	   <listener-class>
+	        org.springframework.web.context.ContextLoaderListener
+	   </listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>Log4JInitServlet</servlet-name>
+		<servlet-class>flowgrammer.log.Log4JInitServlet</servlet-class>
+		<init-param>
+			<param-name>log4j-properties-location</param-name>
+			<param-value>WEB-INF/log4j.properties</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>MainController</servlet-name>
+		<servlet-class>flowgrammer.MainController</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>UploadServlet</servlet-name>
+		<servlet-class>flowgrammer.UploadServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>MainController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>UploadServlet</servlet-name>
+		<url-pattern>/UploadServlet</url-pattern>
+	</servlet-mapping>
+
+</web-app>

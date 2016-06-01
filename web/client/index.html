@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>test</title>
+<link type="text/css" rel="stylesheet" href="stylesheet.css">
+
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var isTestServer = 0;
+	var formData = {"command":"stream"}; //Array 
+	
+	var requestUrl = isTestServer == 1 ? "http://localhost:8080/jReporter/main.do" : "http://flowgrammer.com:8080/jReporter/main.do"
+	var requestImgUrl = isTestServer == 1 ? "http://localhost:8080/jReporter/jReporterUpload/" : "http://flowgrammer.com/jReporterUpload/"
+	
+     jQuery.ajax({
+           type:"POST",
+           url:requestUrl,
+           data : formData,
+           dataType:"JSON", // 옵션이므로 JSON으로 받을게 아니면 안써도 됨
+           success : function(data) {
+           
+           	$.each(data.result, function() {
+/*            		alert(this.username); */
+	            var html = "username : <strong>" + this.username + "</strong> : IdPhoto : " + this.IdPhoto + " <br />";
+                $("#testView").append(html);
+	            var html = "<img src=" + requestImgUrl + this.IdPhoto + ".jpg alt=\"loading...\" width = \"100\" height = \"100\">  <br />";
+	            $("#testView").append(html);
+                
+           	});
+/*            	alert(item[0].username); */
+/*
+				$.each(data, function() {
+				     alert(this["result"]);
+				});
+*/
+           },
+           error : function(xhr, status, error) {
+                 alert("에러발생");
+	            var msg = xhr.status + " / " + message + " / " + errorThrown;
+	            $("#testView").html(msg);    
+            
+           }
+     });
+});
+</script>
+</head>
+<body>
+<div id="testView"></div>
+</body>
+</html>
